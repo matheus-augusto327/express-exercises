@@ -1,25 +1,25 @@
 const express = require("express")
 const path = require("path")
+const bodyParser = require("body-parser")
 
 const app = express()
 
 app.use("/meusite", express.static(path.join(__dirname, "client")))
 
-app.get("/", (req, res) => {
-    res.send("<h1>Hello World From GET</h1>")
-})
+let consoleBody = (req, res, nesy) => {
+    console.log(req.body)
+    next()
+}
 
-app.post("/", (req, res) => {
-    res.send("<h1>Hello World From POST</h1>")
-})
+let hello = (req, res) => {
+    res.send("Hello World!")
+}
 
-app.put("/", (req, res) => {
-    res.send("<h1>Hello World From PUT</h1>")
-})
+app.use("/", bodyParser.json())
+app.use("/", consoleBody)
+app.get("/", hello)
 
-app.delete("/", (req, res) => {
-    res.send("<h1>Hello World From DELETE</h1>")
-})
+app.post("/", hello)
 
 const PORT = 5000
 
